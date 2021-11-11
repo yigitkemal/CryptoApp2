@@ -3,6 +3,8 @@ package com.example.cryptoapp2.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cryptoapp2.adapter.CryptoRecyclerViewAdapter
 import com.example.cryptoapp2.databinding.ActivityMainBinding
 import com.example.cryptoapp2.model.CryptoModel
 import com.example.cryptoapp2.service.CryptoAPI
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private val BASE_URL = "https://api.nomics.com/v1/"
 
     private var crytoModelsArrayList: ArrayList<CryptoModel>? = null
+    private var cryptoAdapter = CryptoRecyclerViewAdapter(arrayListOf())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,37 +33,50 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        binding.recyclerViewMain.layoutManager = LinearLayoutManager(this)
+
+
         loadData()
 
     }
 
-    private fun loadData(){
-        val retrofit =  Retrofit.Builder()
+    private fun loadData() {
+        val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
         val call = retrofit.create(CryptoAPI::class.java).getData()
 
-        call.enqueue(object :Callback<List<CryptoModel>>{
-            override fun onResponse(call: Call<List<CryptoModel>>, response: Response<List<CryptoModel>>) {
-                if(response.isSuccessful){
+        call.enqueue(object : Callback<List<CryptoModel>> {
+            override fun onResponse(
+                call: Call<List<CryptoModel>>,
+                response: Response<List<CryptoModel>>
+            ) {
+                if (response.isSuccessful) {
                     response.body()?.let {
                         crytoModelsArrayList = ArrayList(it)
 
-                        for (cryptoModel: CryptoModel in crytoModelsArrayList!!){
+                        crytoModelsArrayList?.let {
+                            cryptoAdapter = CryptoRecyclerViewAdapter(it)
+                            binding.recyclerViewMain.adapter = cryptoAdapter
+                            cryptoAdapter.notifyDataSetChanged()
+                        }
+
+                        /*for (cryptoModel: CryptoModel in crytoModelsArrayList!!) {
                             println(cryptoModel.currency)
                             println(cryptoModel.price)
-                        }
+
+                        }*/
                     }
                 }
             }
+
             override fun onFailure(call: Call<List<CryptoModel>>, t: Throwable) {
                 t.printStackTrace()
             }
 
         })
-
 
 
     }
