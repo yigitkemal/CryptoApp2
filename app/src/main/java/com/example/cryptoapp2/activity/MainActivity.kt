@@ -3,7 +3,9 @@ package com.example.cryptoapp2.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.cryptoapp2.R
 import com.example.cryptoapp2.adapter.CryptoRecyclerViewAdapter
 import com.example.cryptoapp2.databinding.ActivityMainBinding
 import com.example.cryptoapp2.model.CryptoModel
@@ -32,6 +34,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        val window = this.window
+        window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+        window.statusBarColor = this.getResources().getColor(android.R.color.transparent)
+        window.navigationBarColor = this.getResources().getColor(android.R.color.transparent)
 
         binding.recyclerViewMain.layoutManager = LinearLayoutManager(this)
 

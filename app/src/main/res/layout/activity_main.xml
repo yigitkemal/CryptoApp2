@@ -7,26 +7,44 @@
     android:layout_width="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".activity.MainActivity">
+
+        <View
+            android:id="@+id/main_activityStatusBarScrim"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/statusbar_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/appbar_custom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_activityStatusBarScrim" />
 
         <EditText
             android:id="@+id/search_bar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="30dp"
-            android:paddingLeft="20dp"
+            android:background="@drawable/custom_background"
             android:drawableLeft="@drawable/ic_baseline_search_24"
             android:drawablePadding="15dp"
             android:hint="Search..."
-            android:background="@drawable/custom_background"
+            android:paddingLeft="20dp"
             android:textColor="?attr/colorPrimaryVariant"
             android:textColorHint="?attr/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></EditText>
+            app:layout_constraintTop_toBottomOf="@+id/include"></EditText>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewMain"
